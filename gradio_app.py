@@ -65,8 +65,7 @@ device="cuda"
 
 pipe = StableDiffusionPipeline.from_pretrained(
   "runwayml/stable-diffusion-v1-5",
-  cache_dir='./models/diffusers/',
-  use_auth_token=HF_TOKEN).to(device)
+  cache_dir='./models/diffusers/').to(device)
 pipe.safety_checker = lambda images, clip_input: (images, False)
 pipe.scheduler = DDIMScheduler.from_config(pipe.scheduler.config)
 pipe.scheduler.set_timesteps(50)
@@ -278,4 +277,4 @@ with gr.Blocks(css=css) as demo:
     final_run_btn.click(process_generation, inputs=[binary_matrixes, seed_, creg_, sreg_, sizereg_, bsz_, general_prompt, *prompts], outputs=out_image)
     demo.load(None, None, None, _js=load_js)
     
-demo.launch(server_name="0.0.0.0")
+demo.launch(share=True)
